@@ -14,7 +14,7 @@
     left: 50%;
     width: 150px;
     height: 150px;
-    margin: -75px 0 0 -56px;
+    margin: -110px 0 0 -56px;
     border: 16px solid #f3f3f3;
     border-radius: 50%;
     border-top: 16px solid #3498db;
@@ -26,8 +26,9 @@
 
 #loading .text {
     width: 100%;
-    margin-top: 57px;
+    margin-top: 27px;
     text-align: center;
+    font-size: 14pt;
 }
 
 @-webkit-keyframes spin {
