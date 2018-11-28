@@ -22,7 +22,7 @@ console.log(gens.getCards(5));
 ```
 
 ### gens.loading(boolean, callback)
-Vamos usar o script que eu fiz para definir que agora podemos mostrar o conteúdo que está dentro da div #game
+Agora podemos mostrar o conteúdo que está dentro da div #game
     
 Deste jeito vamos ter uma transição mais elegante e natural para o jogo da página de loading para o game em si
     
@@ -37,12 +37,14 @@ gens.loading(false, function() {
 });
 ```
 
-### gens.preloadImages(array, callback)
+### gens.loadImages(array, callback, boolean)
 Dentro do array você vai colocar a lista de imagens dentro do diretório img do aplicativo para serem carregados na cache antes do callback ser chamado
 
 Se o arquivo não for uma imagem, um erro será emitido
 
 Se acontecer algum erro no script, o valor err vai ser retornado
+
+O boolean no valor true serve para ignorar o sistema de inserir o diretório de imagens na string de forma automática. Ele não precisa está ali, você pode remover ele se quiser
 ```js
 gens.loadImages(['favicon.png'], function(err){
     if(err){
@@ -50,7 +52,7 @@ gens.loadImages(['favicon.png'], function(err){
     } else{
     console.log("Imagens carregadas");
     }
-})
+}, false)
 ```
 
 ### gens.clone(object)
