@@ -29,6 +29,7 @@ $(document).ready(function() {
 
                 // Terminar de limpar dados
                 memoryGame.clock.count = 0;
+                memoryGame.cardsN = 0;
                 memoryGame.clock.enabled = false;
 
                 memoryGame.database = {
@@ -60,7 +61,8 @@ const memoryGame = {
         score: $("<span>", { class: "fas fa-star" })[0].outerHTML + " Pontuação: ",
         totalclicks: $("<span>", { class: "fas fa-times" })[0].outerHTML + " Total de Cliques: ",
         clicks: $("<span>", { class: "fas fa-hand-pointer" })[0].outerHTML + " Cliques: ",
-        time: $("<span>", { class: "fas fa-clock" })[0].outerHTML + " Tempo: "
+        time: $("<span>", { class: "fas fa-clock" })[0].outerHTML + " Tempo: ",
+        cards: $("<span>", { class: "fas fa-keyboard" })[0].outerHTML + " Total de Cartas Desafiadas: "
 
     },
 
@@ -182,7 +184,8 @@ const memoryGame = {
             memoryGame.finalScore = {
                 clicks: memoryGame.database.sameClick,
                 score: memoryGame.database.score,
-                clock: memoryGame.clock.get(memoryGame.clock.count).format
+                clock: memoryGame.clock.get(memoryGame.clock.count).format,
+                cards: memoryGame.cardsN
             };
 
             $("#theModal .modal-title").text("Parabéns! Você venceu!");
@@ -190,7 +193,9 @@ const memoryGame = {
                 [
                     $("<h1>").append($("<span>").html([memoryGame.text.time, memoryGame.finalScore.clock])),
                     $("<h2>").append($("<span>").html([memoryGame.text.score, memoryGame.finalScore.score])),
-                    $("<h3>").append($("<span>").html([memoryGame.text.clicks, memoryGame.finalScore.clicks]))
+                    $("<h3>").append($("<span>").html([memoryGame.text.clicks, memoryGame.finalScore.clicks])),
+                    $("<br>"),
+                    $("<h4>").append($("<span>").html([memoryGame.text.cards, memoryGame.finalScore.cards]))
                 ]
             ));
             $("#theModal .modal-footer").empty().append(
@@ -346,6 +351,7 @@ const memoryGame = {
 
         // Vamos converter o valor do input para número e em seguida usa-lo para formar a tabela de cartas do jogo
         data.cards = gens.getCards(Number(data.cards));
+        memoryGame.cardsN = data.cards.length;
 
         memoryGame.cards = [];
 
@@ -425,6 +431,8 @@ const memoryGame = {
                                                 click: 0,
                                                 score: 0
                                             };
+
+                                            memoryGame.cardsN = 0;
 
                                             gens.pages("mainMenu");
 
