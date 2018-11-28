@@ -15,7 +15,8 @@ gens.game = {
     // Por favor, coloque aqui dentro o diretório de todos os arquivos de imagens para ser salvos na cache antes do aplicativo iniciar o startApp
     // Estes arquivos vão sidos da pasta img
     imgs: [
-        'logo.png'
+        'logo.png',
+        'card.jpeg'
     ],
 
 

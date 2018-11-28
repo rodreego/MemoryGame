@@ -1,1 +1,17 @@
-/* nya */
+#game .game .card {
+    margin: 5px;
+    border: 1px solid #ccc;
+    float: left;
+    width: 100px;
+    height: 150px;
+    cursor: pointer;
+}
+
+#game .game .card:hover {
+    border: 1px solid #777;
+}
+
+#game .game .card img {
+    width: 100%;
+    height: auto;
+}
