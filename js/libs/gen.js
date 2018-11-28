@@ -201,7 +201,6 @@ const resizeWindow = function() {
             if (itemsResult > checkD) {
                 result = true;
                 itemsResult -= itemsD;
-                console.log(itemsResult, checkD);
                 itemsResult = Number(checkD - itemsResult) / 2;
             } else {
                 itemsResult += itemsD;
