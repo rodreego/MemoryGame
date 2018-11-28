@@ -7,6 +7,28 @@ Está função de começar o jogo sempre vai ser chamada no momento exato que fo
 
 const memoryGame = {
 
+    // Relógio do jogo
+    clock: {
+
+        // Contador
+        interval: function() {
+            setInterval(function() {
+                if (memoryGame.clock.enabled == true) {
+
+                    memoryGame.clock.count++;
+
+                }
+            }, 1000);
+        },
+
+        // Contagem em segundos
+        count: 0,
+
+        // Se está ativado ou não
+        enabled: false
+
+    },
+
     // Aqui é onde o jogo salva a tabela de cartas
     cards: [],
 
@@ -18,8 +40,8 @@ const memoryGame = {
 
     // Contador de clicks
     database: {
-        sameTime: 0,
-        time: 0,
+        sameClick: 0,
+        click: 0,
         score: 0
     },
 
@@ -31,37 +53,45 @@ const memoryGame = {
         var countCards = gens.body.find(".cardlist").children().length;
 
         // Este é o marcador total de cliques
-        memoryGame.database.sameTime++;
+        memoryGame.database.sameClick++;
 
         // Este é o marcador de cliques até uma combinação perfeita de cartas ser atingida
         if (done == true) {
 
             // Vamos marcar os pontos antes de zerar o time
+
+            // Ponto base
             var pointsSend = 1;
 
-            var multipoint = 10 - memoryGame.database.time;
+            // Multiplicador de pontos
+            var multipoint = 25 - memoryGame.database.click;
 
-            if (memoryGame.database.sameTime < Number(memoryGame.cards.length * 2)) {
+            // Dependencia de cliques para duplicar o multiplicador
+            if (memoryGame.database.sameClick < Number(memoryGame.cards.length * 2)) {
                 multipoint = multipoint * 2;
             }
 
+            // Se for possível multiplicar, faremos aqui agora
             if (multipoint > 0) {
                 pointsSend = pointsSend * multipoint;
             }
             delete multipoint;
 
+            // Adicionamos a pontuação
             memoryGame.database.score += pointsSend;
 
-            memoryGame.database.time = 0;
+            // Finalizado e click resetado
+            memoryGame.database.click = 0;
             delete pointsSend;
 
         } else {
-            memoryGame.database.time++;
+            memoryGame.database.click++;
         }
 
         // Todas as cartas sumiram? Vamos enviar para a janelinha da vitória! :D
         if (countCards < 1) {
 
+            // Primeiro limpar dados
             memoryGame.cards = [];
 
             memoryGame.selected = {
@@ -69,17 +99,25 @@ const memoryGame = {
                 c2: null
             };
 
-            gens.pages("win", { time: memoryGame.database.sameTime, score: memoryGame.database.score });
+            // Enviar dados para o sistema de vencedor
+            gens.pages("win", { clicks: memoryGame.database.sameClick, score: memoryGame.database.score, clock: memoryGame.clock.count });
+
+            // Terminar de limpar dados
+            memoryGame.clock.count = 0;
+            memoryGame.clock.enabled = false;
 
             memoryGame.database = {
-                sameTime: 0,
-                time: 0,
+                sameClick: 0,
+                click: 0,
                 score: 0
             };
 
-        } else {
+        }
 
-            console.log(memoryGame.database.time, memoryGame.database.sameTime, memoryGame.database.score);
+        // Continuar o jogo
+        else {
+
+            console.log(memoryGame.database.click, memoryGame.database.sameClick, memoryGame.database.score, memoryGame.clock.count);
 
         }
 
@@ -226,10 +264,12 @@ const memoryGame = {
         };
 
         memoryGame.database = {
-            sameTime: 0,
-            time: 0,
+            sameClick: 0,
+            click: 0,
             score: 0
         };
+
+        memoryGame.clock.count = 0;
 
         // Vamos começat a gerar as cartas aqui. Cada carta vai ter sua ID salva dentro de si em uma variavel chamada tinycard
         for (var i = 0; i < data.cards.length; i++) {
@@ -255,10 +295,13 @@ const memoryGame = {
         // Quando a página terminar de aparecer e aparecer, alguma coisinha pode acontecer aqui
         gens.loading(false, function() {
 
-
+            // Ativar o relógio da partida
+            memoryGame.clock.enabled = true;
 
         });
 
     }
 
 };
+
+memoryGame.clock.interval();
