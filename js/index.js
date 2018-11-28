@@ -17,21 +17,22 @@ gens.game.pages = {
 
         // Configurador de Cartas para jogar. Este painel reconhece sozinho  quantas cartas estão instaladas no jogo
         var totalCards = $("<span>").text(String(gens.game.cards.length * 2) + " Cartas no total");
-        var Cardsmount = $("<input>", { type: "number", min: 1, max: gens.game.cards.length, class: "form-control" }).val(gens.game.cards.length).change(function() {
+        var Cardsmount = $("<input>", { type: "number", min: 1, max: gens.game.cards.length, class: "form-control" })
+            .val(gens.game.cards.length).change(function() {
 
-            if (Number($(this).val()) > Number($(this).attr("max"))) {
+                if (Number($(this).val()) > Number($(this).attr("max"))) {
 
-                $(this).val($(this).attr("max"));
+                    $(this).val($(this).attr("max"));
 
-            } else if (Number($(this).val()) < Number($(this).attr("min"))) {
+                } else if (Number($(this).val()) < Number($(this).attr("min"))) {
 
-                $(this).val($(this).attr("min"));
+                    $(this).val($(this).attr("min"));
 
-            }
+                }
 
-            totalCards.text(String(Number($(this).val()) * 2) + " Cartas no total");
+                totalCards.text(String(Number($(this).val()) * 2) + " Cartas no total");
 
-        });
+            });
 
         // Gerar Menu dentro da página do jogo
         gens.body.html(

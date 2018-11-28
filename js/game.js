@@ -16,6 +16,8 @@ $(document).ready(function() {
 
         if (memoryGame.finalScore) {
 
+            firework(false);
+
             // Enviar dados para o sistema de vencedor
             gens.body.fadeOut(400, function() {
 
@@ -203,6 +205,7 @@ const memoryGame = {
                 $("<button>", { type: "button", class: "btn btn-default" }).text("Confirmar").click(function() { $("#theModal").modal('hide'); })
             );
 
+            firework(true);
             $("#theModal").modal();
 
         }
