@@ -156,9 +156,13 @@ $(document).ready(function() {
     }
 
     // Ativar cache e abrir aplicativo
-    gens.loadImages(imgloading, function() {
+    gens.loadImages(imgloading, function(err) {
         delete imgloading;
-        if (typeof startApp == "function") { startApp(); }
+        if (!err) {
+            if (typeof startApp == "function") { startApp(); }
+        } else {
+            console.error("O APLICATIVO ENCONTROU UM DEFEITO E NÃO PODE SER INICIADO!", err);
+        }
     }, true);
 
 
