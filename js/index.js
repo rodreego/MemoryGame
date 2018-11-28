@@ -13,6 +13,7 @@ const startApp = function() {
 
     // Vamos usar o script que eu fiz para definir que agora podemos mostrar o conteúdo que está dentro da div #game
     // Deste jeito vamos ter uma transição mais elegante e natural para o jogo da página de loading para o game em si
+    // Valor false vai exibir o jogo, valor true vai exibir a tela de loading
     gens.loading(false, function() {
 
         console.log("E podemos de forma opcional usar esse callback para fazer alguma coisinha quando a animação de transição de tela terminar.");
