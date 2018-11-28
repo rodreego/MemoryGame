@@ -28,10 +28,6 @@ gens.game = {
         // O sistema do jogo está dentro do arquivo game.js
         game: memoryGame.app,
 
-        // O sistema de vencedor está dentro do win.js
-        win: winGame,
-
-
 
         // Menu Principal
         mainMenu: function() {

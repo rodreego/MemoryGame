@@ -9,14 +9,50 @@ Está função de começar o jogo sempre vai ser chamada no momento exato que fo
 $(document).ready(function() {
 
     $('#theModal').on('hidden.bs.modal', function() {
+
         if (memoryGame.closed == false) {
             memoryGame.clock.enabled = true;
         }
+
+        if (memoryGame.finalScore) {
+
+            // Enviar dados para o sistema de vencedor
+            gens.body.fadeOut(400, function() {
+
+                // Primeiro limpar dados
+                memoryGame.cards = [];
+
+                memoryGame.selected = {
+                    c1: null,
+                    c2: null
+                };
+
+                // Terminar de limpar dados
+                memoryGame.clock.count = 0;
+                memoryGame.clock.enabled = false;
+
+                memoryGame.database = {
+                    sameClick: 0,
+                    click: 0,
+                    score: 0
+                };
+
+                gens.pages("mainMenu");
+
+            });
+
+            memoryGame.finalScore = null;
+
+        }
+
     });
 
 });
 
 const memoryGame = {
+
+    // Pontuação final
+    finalScore: null,
 
     // Escrita
     text: {
@@ -140,40 +176,28 @@ const memoryGame = {
         if (countCards < 1) {
 
             memoryGame.closed = true;
+            memoryGame.clock.enabled = false;
 
+            // Enviar Pontuação
+            memoryGame.finalScore = {
+                clicks: memoryGame.database.sameClick,
+                score: memoryGame.database.score,
+                clock: memoryGame.clock.get(memoryGame.clock.count).format
+            };
 
+            $("#theModal .modal-title").text("Parabéns! Você venceu!");
+            $("#theModal .modal-body").html($("<center>").append(
+                [
+                    $("<h1>").append($("<span>").html([memoryGame.text.time, memoryGame.finalScore.clock])),
+                    $("<h2>").append($("<span>").html([memoryGame.text.score, memoryGame.finalScore.score])),
+                    $("<h3>").append($("<span>").html([memoryGame.text.clicks, memoryGame.finalScore.clicks]))
+                ]
+            ));
+            $("#theModal .modal-footer").empty().append(
+                $("<button>", { type: "button", class: "btn btn-default" }).text("Confirmar").click(function() { $("#theModal").modal('hide'); })
+            );
 
-            // Enviar dados para o sistema de vencedor
-            gens.body.fadeOut(400, function() {
-
-
-                // Primeiro limpar dados
-                memoryGame.cards = [];
-
-                memoryGame.selected = {
-                    c1: null,
-                    c2: null
-                };
-
-                // Enviar
-                gens.pages("win", {
-                    clicks: memoryGame.database.sameClick,
-                    score: memoryGame.database.score,
-                    clock: memoryGame.clock.get(memoryGame.clock.count)
-                });
-
-                // Terminar de limpar dados
-                memoryGame.clock.count = 0;
-                memoryGame.clock.enabled = false;
-
-                memoryGame.database = {
-                    sameClick: 0,
-                    click: 0,
-                    score: 0
-                };
-
-
-            });
+            $("#theModal").modal();
 
         }
 
