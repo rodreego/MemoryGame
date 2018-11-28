@@ -19,30 +19,27 @@ $(document).ready(function() {
             firework(false);
 
             // Enviar dados para o sistema de vencedor
-            gens.body.fadeOut(400, function() {
 
-                // Primeiro limpar dados
-                memoryGame.cards = [];
+            // Primeiro limpar dados
+            memoryGame.cards = [];
 
-                memoryGame.selected = {
-                    c1: null,
-                    c2: null
-                };
+            memoryGame.selected = {
+                c1: null,
+                c2: null
+            };
 
-                // Terminar de limpar dados
-                memoryGame.clock.count = 0;
-                memoryGame.cardsN = 0;
-                memoryGame.clock.enabled = false;
+            // Terminar de limpar dados
+            memoryGame.clock.count = 0;
+            memoryGame.cardsN = 0;
+            memoryGame.clock.enabled = false;
 
-                memoryGame.database = {
-                    sameClick: 0,
-                    click: 0,
-                    score: 0
-                };
+            memoryGame.database = {
+                sameClick: 0,
+                click: 0,
+                score: 0
+            };
 
-                gens.pages("mainMenu");
-
-            });
+            gens.pages("mainMenu");
 
             memoryGame.finalScore = null;
 
