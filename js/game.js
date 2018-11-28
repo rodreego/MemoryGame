@@ -141,32 +141,39 @@ const memoryGame = {
 
             memoryGame.closed = true;
 
-            // Primeiro limpar dados
-            memoryGame.cards = [];
 
-            memoryGame.selected = {
-                c1: null,
-                c2: null
-            };
 
             // Enviar dados para o sistema de vencedor
             gens.body.fadeOut(400, function() {
+
+
+                // Primeiro limpar dados
+                memoryGame.cards = [];
+
+                memoryGame.selected = {
+                    c1: null,
+                    c2: null
+                };
+
+                // Enviar
                 gens.pages("win", {
                     clicks: memoryGame.database.sameClick,
                     score: memoryGame.database.score,
                     clock: memoryGame.clock.get(memoryGame.clock.count)
                 });
+
+                // Terminar de limpar dados
+                memoryGame.clock.count = 0;
+                memoryGame.clock.enabled = false;
+
+                memoryGame.database = {
+                    sameClick: 0,
+                    click: 0,
+                    score: 0
+                };
+
+
             });
-
-            // Terminar de limpar dados
-            memoryGame.clock.count = 0;
-            memoryGame.clock.enabled = false;
-
-            memoryGame.database = {
-                sameClick: 0,
-                click: 0,
-                score: 0
-            };
 
         }
 
