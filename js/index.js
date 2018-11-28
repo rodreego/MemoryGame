@@ -33,7 +33,7 @@ gens.game = {
         // Menu Principal
         mainMenu: function() {
 
-            // Configurador de Cartas para jogar
+            // Configurador de Cartas para jogar. Este painel reconhece sozinho  quantas cartas estão instaladas no jogo
             var Cardsmount = $("<input>", { type: "number", min: 1, max: gens.game.cards.length, class: "form-control" }).val(gens.game.cards.length).change(function() {
 
                 if (Number($(this).val()) > Number($(this).attr("max"))) {
