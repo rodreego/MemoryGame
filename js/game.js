@@ -39,6 +39,8 @@ $(document).ready(function() {
                 score: 0
             };
 
+            memoryGame.perfect = 0;
+
             gens.pages("mainMenu");
 
             memoryGame.finalScore = null;
@@ -131,6 +133,8 @@ const memoryGame = {
         score: 0
     },
 
+    perfect: 0,
+
     // Checar situação do jogo. Ela é ativada a cada final de jogada
     // O valor done vai dizer se a jogada foi uma combinação perfeita ou não
     check: function(done) {
@@ -157,6 +161,17 @@ const memoryGame = {
                 multipoint = multipoint * 2;
             }
 
+            if (memoryGame.clock.get(memoryGame.clock.count).minute <= 3) {
+                multipoint = multipoint * 2;
+            }
+
+            if (memoryGame.database.click <= 2) {
+                memoryGame.perfect++;
+                multipoint = multipoint * memoryGame.perfect;
+            } else {
+                memoryGame.perfect = 0;
+            }
+
             // Se for possível multiplicar, faremos aqui agora
             if (multipoint > 0) {
                 pointsSend = pointsSend * multipoint;
@@ -179,6 +194,7 @@ const memoryGame = {
 
             memoryGame.closed = true;
             memoryGame.clock.enabled = false;
+            memoryGame.perfect = 0;
 
             // Enviar Pontuação
             memoryGame.finalScore = {
@@ -369,6 +385,7 @@ const memoryGame = {
         };
 
         memoryGame.clock.count = 0;
+        memoryGame.perfect = 0;
 
         // Vamos começat a gerar as cartas aqui. Cada carta vai ter sua ID salva dentro de si em uma variavel chamada tinycard
         for (var i = 0; i < data.cards.length; i++) {
@@ -436,6 +453,7 @@ const memoryGame = {
                                             };
 
                                             memoryGame.cardsN = 0;
+                                            memoryGame.perfect = 0;
 
                                             gens.pages("mainMenu");
 
@@ -471,7 +489,7 @@ const memoryGame = {
             resizeWindow();
 
 
-            // Quando a página terminar de aparecer e aparecer, alguma coisinha pode acontecer aqui
+            // Quando a página terminar de aparecer, alguma coisinha pode acontecer aqui
             gens.loading(false, function() {
 
                 // Ativar o relógio da partida
