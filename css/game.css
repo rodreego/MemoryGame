@@ -1,3 +1,7 @@
+#game .game {
+    margin-top: 73px;
+}
+
 #game .game .card {
     margin: 5px;
     border: 1px solid #ccc;
@@ -24,4 +28,9 @@
     display: inline-block;
     width: 100%;
     height: 0;
+}
+
+#game .navbar-btn {
+    margin-right: 25px;
+    margin-left: 15px;
 }

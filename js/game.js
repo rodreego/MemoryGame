@@ -5,7 +5,31 @@ Está função de começar o jogo sempre vai ser chamada no momento exato que fo
 
 */
 
+// Modal Fechado
+$(document).ready(function() {
+
+    $('#theModal').on('hidden.bs.modal', function() {
+        if (memoryGame.closed == false) {
+            memoryGame.clock.enabled = true;
+        }
+    });
+
+});
+
 const memoryGame = {
+
+    // Escrita
+    text: {
+
+        score: $("<span>", { class: "fas fa-star" })[0].outerHTML + " Pontuação: ",
+        totalclicks: $("<span>", { class: "fas fa-times" })[0].outerHTML + " Total de Cliques: ",
+        clicks: $("<span>", { class: "fas fa-hand-pointer" })[0].outerHTML + " Cliques: ",
+        time: $("<span>", { class: "fas fa-clock" })[0].outerHTML + " Tempo: "
+
+    },
+
+    // Saber se o joguinho está ativo ou não
+    closed: true,
 
     // Relógio do jogo
     clock: {
@@ -39,8 +63,7 @@ const memoryGame = {
                 if (memoryGame.clock.enabled == true) {
 
                     memoryGame.clock.count++;
-
-                    memoryGame.clock.get(memoryGame.clock.count);
+                    gens.body.find("#clock > a").html([memoryGame.text.time, memoryGame.clock.get(memoryGame.clock.count).format]);
 
                 }
             }, 1000);
@@ -116,6 +139,8 @@ const memoryGame = {
         // Todas as cartas sumiram? Vamos enviar para a janelinha da vitória! :D
         if (countCards < 1) {
 
+            memoryGame.closed = true;
+
             // Primeiro limpar dados
             memoryGame.cards = [];
 
@@ -125,7 +150,13 @@ const memoryGame = {
             };
 
             // Enviar dados para o sistema de vencedor
-            gens.pages("win", { clicks: memoryGame.database.sameClick, score: memoryGame.database.score, clock: memoryGame.clock.get(memoryGame.clock.count) });
+            gens.body.fadeOut(400, function() {
+                gens.pages("win", {
+                    clicks: memoryGame.database.sameClick,
+                    score: memoryGame.database.score,
+                    clock: memoryGame.clock.get(memoryGame.clock.count)
+                });
+            });
 
             // Terminar de limpar dados
             memoryGame.clock.count = 0;
@@ -142,7 +173,9 @@ const memoryGame = {
         // Continuar o jogo
         else {
 
-            console.log(memoryGame.database.click, memoryGame.database.sameClick, memoryGame.database.score, memoryGame.clock.get(memoryGame.clock.count));
+            gens.body.find("#click > a").html([memoryGame.text.clicks, memoryGame.database.click]);
+            gens.body.find("#totalclick > a").html([memoryGame.text.totalclicks, memoryGame.database.sameClick]);
+            gens.body.find("#score > a").html([memoryGame.text.score, memoryGame.database.score]);
 
         }
 
@@ -278,6 +311,8 @@ const memoryGame = {
     // O aplicativo do jogo está aqu
     app: function(data) {
 
+        memoryGame.closed = false;
+
         // Vamos converter o valor do input para número e em seguida usa-lo para formar a tabela de cartas do jogo
         data.cards = gens.getCards(Number(data.cards));
 
@@ -306,13 +341,86 @@ const memoryGame = {
         // Gerador da página
         gens.body.html(
 
-            // O Container do jogo
-            $("<div>", { class: "game container" }).append(
+            [
 
-                // Nosso jogo está acontecendo aqui dentro
-                $("<div>", { class: "cardlist" }).append(memoryGame.cards)
+                // Painel do Topo
+                $("<nav>", { class: "navbar navbar-default navbar-fixed-top" }).append(
+                    $("<div>", { class: "container-fluid" }).append(
 
-            )
+                        // Título
+                        $("<div>", { class: "navbar-header" }).append(
+                            $("<a>", { class: "navbar-brand" }).text("Memory Game")
+                        ),
+
+                        // Itens
+                        $("<ul>", { class: "nav navbar-nav" }).append(
+
+                            $("<li>", { id: "click" }).append($("<a>").html([memoryGame.text.clicks, "0"])),
+                            $("<li>", { id: "totalclick" }).append($("<a>").html([memoryGame.text.totalclicks, "0"])),
+                            $("<li>", { id: "score" }).append($("<a>").html([memoryGame.text.score, "0"]))
+
+                        ),
+
+                        // Itens Direita
+                        $("<ul>", { class: "nav navbar-nav navbar-right" }).append(
+
+                            $("<li>", { id: "clock" }).append($("<a>").html([memoryGame.text.time, "00:00:00"])),
+
+
+                            $("<button>", { class: "btn btn-primary navbar-btn" }).text("Abandonar / Pause").click(function() {
+
+                                memoryGame.clock.enabled = false;
+                                $("#theModal .modal-title").text("Confirme sua ação");
+                                $("#theModal .modal-body").text("Tem certeza que deseja sair? Todo o seu progresso será perdido para sempre!");
+                                $("#theModal .modal-footer").empty().append(
+                                    $("<button>", { type: "button", class: "btn btn-danger" }).text("Sim").click(function() {
+
+                                        memoryGame.closed = true;
+                                        $("#theModal").modal('hide');
+                                        gens.body.fadeOut(400, function() {
+
+                                            memoryGame.cards = [];
+
+                                            memoryGame.selected = {
+                                                c1: null,
+                                                c2: null
+                                            };
+
+                                            memoryGame.clock.count = 0;
+                                            memoryGame.clock.enabled = false;
+
+                                            memoryGame.database = {
+                                                sameClick: 0,
+                                                click: 0,
+                                                score: 0
+                                            };
+
+                                            gens.pages("mainMenu");
+
+                                        });
+
+                                    }),
+                                    $("<button>", { type: "button", class: "btn btn-default" }).text("Não").click(function() { $("#theModal").modal('hide'); })
+                                );
+
+                                $("#theModal").modal();
+
+                            })
+
+                        )
+
+                    )
+                ),
+
+                // O Container do jogo
+                $("<div>", { class: "game container" }).append(
+
+                    // Nosso jogo está acontecendo aqui dentro
+                    $("<div>", { class: "cardlist" }).append(memoryGame.cards)
+
+                )
+
+            ]
 
         );
 
