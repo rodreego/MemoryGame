@@ -90,3 +90,23 @@
     margin-top: 25px;
     margin-bottom: 25px;
 }
+
+.menu .logo {
+    background-image: url("../img/logo.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 80% auto;
+    height: 200px;
+}
+
+.menu .cardnumber {
+    font-size: 16pt;
+    margin-bottom: 15px
+}
+
+.menu .cardnumber input {
+    width: 100px;
+    text-align: center;
+    margin: auto;
+    margin-top: 6px;
+}

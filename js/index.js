@@ -55,7 +55,7 @@ gens.game = {
                 $("<div>", { class: "menu container" }).append(
 
                     // Logo do Jogo
-                    $("<img>", { src: "./img/logo.png", alt: "logo" }),
+                    $("<div>", { class: "logo" }),
 
                     // Painelzinho de Número de Cartas
                     $("<div>", { class: "cardnumber" }).append([
@@ -68,15 +68,15 @@ gens.game = {
                         gens.body.fadeOut(400, function() { gens.pages("game", { cards: $(Cardsmount).val() }); });
                     }),
 
-                    // Butão de iniciar o jogo
-                    $("<button>", { class: "btn btn-primary btn-lg btn-block disabled" }).text("Pontuações").click(function() {
+                    // Lista de pontuações
+                    $("<button>", { class: "btn btn-default btn-lg btn-block disabled" }).text("Pontuações").click(function() {
 
 
 
                     }),
 
-                    // Butão de iniciar o jogo
-                    $("<button>", { class: "btn btn-primary btn-lg btn-block disabled" }).text("Créditos").click(function() {
+                    // Créditos do Jogo
+                    $("<button>", { class: "btn btn-default btn-lg btn-block disabled" }).text("Créditos").click(function() {
 
 
 
