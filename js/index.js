@@ -20,23 +20,7 @@ gens.game = {
 // Quando a página terminar de carregar. O aplicativo vai começar a executar os scripts aqui.
 const startApp = function() {
 
-    // gens.body representa de forma totalmente segura o valor $("#game") para ser manipulado pelo jQuery
-    gens.body.addClass("loaded");
-
-    // Aqui você pode obter a lista cartas do jogo
-    console.log(gens.getCards());
-
-    // Se você colocar um número dentro da função, você receberá um número limitado de cartas
-    console.log(gens.getCards(5));
-
-    // Vamos usar o script que eu fiz para definir que agora podemos mostrar o conteúdo que está dentro da div #game
-    // Deste jeito vamos ter uma transição mais elegante e natural para o jogo da página de loading para o game em si
-    // Valor false vai exibir o jogo, valor true vai exibir a tela de loading
-    gens.loading(false, function() {
-
-        // E podemos de forma opcional usar esse callback para fazer alguma coisinha quando a animação de transição de tela terminar
-        console.log("Load 100% completo");
-
-    });
+    // Exibir Menu do jogo
+    gens.loading(false);
 
 };

@@ -109,6 +109,30 @@ gens.preloadImages = function(array, callback) {
     }
 }
 
+// Preparar Leitor de cache
+gens.loadImages = function(array, callback, noedit) {
+    try {
+
+        if (noedit != true) {
+
+            var imgloading = [];
+            for (var i = 0; i < array.length; i++) {
+                imgloading.push("./img/" + String(array[i]));
+            }
+
+        } else {
+            var imgloading = array;
+        }
+
+        // Começar aplicativo do jogo
+        gens.preloadImages(imgloading, function() {
+            delete imgloading;
+            if (typeof callback == "function") { callback(); }
+        });
+
+    } catch (err) { if (typeof callback == "function") { callback(err); } else { console.log(err); } }
+}
+
 // Obter Cartas do jogo
 gens.getCards = function(number) {
     return gens.cardTable(gens.game.cards, number);
@@ -120,6 +144,7 @@ $(document).ready(function() {
     // Game Body
     gens.body = $("body > #game");
 
+    // Preparar Cache
     var imgloading = [];
 
     for (var i = 0; i < gens.game.cards.length; i++) {
@@ -130,10 +155,11 @@ $(document).ready(function() {
         imgloading.push("./img/" + String(gens.game.imgs[i]));
     }
 
-    // Começar aplicativo do jogo
-    gens.preloadImages(imgloading, function() {
+    // Ativar cache e abrir aplicativo
+    gens.loadImages(imgloading, function() {
         delete imgloading;
         if (typeof startApp == "function") { startApp(); }
-    });
+    }, true);
+
 
 });
