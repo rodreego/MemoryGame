@@ -17,6 +17,7 @@
 
 #game .game .cardlist {
     text-align: justify;
+    margin-bottom: 25px;
 }
 
 #game .game .cardlist .card {

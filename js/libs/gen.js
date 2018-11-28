@@ -153,6 +153,9 @@ gens.pages = function(value, data) {
 
 };
 
+// NÃO TIRE ISSO! DEIXE AQUI COMO ESTÁ!
+gens.game = {};
+
 // Esperar a página carregar completamente
 $(document).ready(function() {
 
