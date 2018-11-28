@@ -10,6 +10,21 @@ gens.clone = function(obj) {
     return copy;
 };
 
+// Colocar o jogo no modo loading
+gens.loading = function(isLoad, callback) {
+
+    if (typeof callback != "function") { callback = function() {}; }
+
+    if (isLoad == false) {
+        $("#loading").fadeOut(400);
+        $("#game").fadeIn(400, callback);
+    } else {
+        $("#game").fadeIn(400, callback);
+        $("#loading").fadeOut(400);
+    }
+
+};
+
 // Gerador de mesa de carts
 gens.cardTable = function(cards) {
 
