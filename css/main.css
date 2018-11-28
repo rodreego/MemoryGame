@@ -110,3 +110,19 @@
     margin: auto;
     margin-top: 6px;
 }
+
+
+/* Credits */
+
+.credits {
+    margin-bottom: 25px;
+}
+
+.credits h2 {
+    text-align: center;
+    margin-top: 25px;
+}
+
+.credits table {
+    margin-top: 15px;
+}

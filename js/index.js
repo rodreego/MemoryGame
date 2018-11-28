@@ -69,17 +69,13 @@ gens.game = {
                     }),
 
                     // Lista de pontuações
-                    $("<button>", { class: "btn btn-default btn-lg btn-block disabled" }).text("Pontuações").click(function() {
-
-
-
+                    $("<button>", { class: "btn btn-default btn-lg btn-block" }).prop("disabled", true).text("Pontuações").click(function() {
+                        gens.body.fadeOut(400, function() { gens.pages("points"); });
                     }),
 
                     // Créditos do Jogo
-                    $("<button>", { class: "btn btn-default btn-lg btn-block disabled" }).text("Créditos").click(function() {
-
-
-
+                    $("<button>", { class: "btn btn-default btn-lg btn-block" }).text("Créditos").click(function() {
+                        gens.body.fadeOut(400, function() { gens.pages("credits"); });
                     })
 
 
@@ -87,6 +83,61 @@ gens.game = {
 
             );
 
+            gens.loading(false);
+
+        },
+
+
+
+
+        // Tabela de Pontuações
+        points: function() {
+
+            gens.loading(false);
+
+        },
+
+
+
+
+        // Página de Créditos
+        credits: function() {
+
+            gens.body.html(
+
+                // O Container dos créditos
+                $("<div>", { class: "credits container" }).append(
+                    $("<h2>").text("Créditos do Trabalho"),
+                    $("<table>", { class: "table table-bordered" }).append(
+
+                        // Topo da tabela
+                        $("<thead>").append(
+                            $("<tr>").append(
+                                $("<td>").text("Aluno(a)"),
+                                $("<td>").text("Função")
+                            )
+                        ),
+
+                        // Lista do Grupo. Programe aqui a sua participação :D
+                        $("<tbody>").append(
+
+                            // Yasmin
+                            $("<tr>").append(
+                                $("<td>").text("Yasmin Seidel"),
+                                $("<td>").text("Ajudou a transformar a ideia do trabalho em projeto e desenvolveu o sistema base")
+                            )
+
+                        )
+
+                    ),
+                    $("<button>", { class: "btn btn-primary btn-lg btn-block" }).text("Voltar").click(function() {
+                        gens.body.fadeOut(400, function() { gens.pages("mainMenu"); });
+                    })
+                )
+
+            );
+
+            gens.loading(false);
 
         },
 
@@ -126,8 +177,7 @@ gens.game = {
 // Quando a página terminar de carregar. O aplicativo vai começar a executar os scripts aqui.
 const startApp = function() {
 
-    // Abrir o menu principal e em seguida remover a página de loading
+    // Abrir o menu principal
     gens.pages("mainMenu");
-    gens.loading(false);
 
 };
