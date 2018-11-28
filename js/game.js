@@ -62,7 +62,8 @@ const memoryGame = {
         totalclicks: $("<span>", { class: "fas fa-times" })[0].outerHTML + " Total de Cliques: ",
         clicks: $("<span>", { class: "fas fa-hand-pointer" })[0].outerHTML + " Cliques: ",
         time: $("<span>", { class: "fas fa-clock" })[0].outerHTML + " Tempo: ",
-        cards: $("<span>", { class: "fas fa-keyboard" })[0].outerHTML + " Total de Cartas Desafiadas: "
+        cards: $("<span>", { class: "fas fa-keyboard" })[0].outerHTML + " Total de Cartas Desafiadas: ",
+        cardc: $("<span>", { class: "fas fa-keyboard" })[0].outerHTML + " Cartas Restantes: "
 
     },
 
@@ -212,6 +213,7 @@ const memoryGame = {
             gens.body.find("#click > a").html([memoryGame.text.clicks, memoryGame.database.click]);
             gens.body.find("#totalclick > a").html([memoryGame.text.totalclicks, memoryGame.database.sameClick]);
             gens.body.find("#score > a").html([memoryGame.text.score, memoryGame.database.score]);
+            gens.body.find("#tcards > a").html([memoryGame.text.cardc, countCards]);
 
         }
 
@@ -394,7 +396,8 @@ const memoryGame = {
 
                             $("<li>", { id: "click" }).append($("<a>").html([memoryGame.text.clicks, "0"])),
                             $("<li>", { id: "totalclick" }).append($("<a>").html([memoryGame.text.totalclicks, "0"])),
-                            $("<li>", { id: "score" }).append($("<a>").html([memoryGame.text.score, "0"]))
+                            $("<li>", { id: "score" }).append($("<a>").html([memoryGame.text.score, "0"])),
+                            $("<li>", { id: "tcards" }).append($("<a>").html([memoryGame.text.cardc, memoryGame.cardsN]))
 
                         ),
 
