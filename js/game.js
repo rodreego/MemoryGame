@@ -74,26 +74,19 @@ const memoryGame = {
     // Relógio do jogo
     clock: {
 
-        two_numbers: function(number) {
-
-            if (number <= 9) {
-                number = "0" + number;
-            }
-
-            return number;
-
-        },
-
         // Transformar segundos em contador
         get: function(s) {
 
-            var hour = memoryGame.clock.two_numbers(Math.round(s / 3600));
-            var minute = memoryGame.clock.two_numbers(Math.round((s % 3600) / 60));
-            var second = memoryGame.clock.two_numbers((s % 3600) % 60);
+            var sec_num = parseInt(s, 10); // don't forget the second param
+            var hours = Math.floor(sec_num / 3600);
+            var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+            var seconds = sec_num - (hours * 3600) - (minutes * 60);
 
-            var format = hour + ":" + minute + ":" + second;
+            if (hours < 10) { hours = "0" + hours; }
+            if (minutes < 10) { minutes = "0" + minutes; }
+            if (seconds < 10) { seconds = "0" + seconds; }
 
-            return { format: format, hour: Number(hour), minute: Number(minute), second: Number(second) };
+            return { format: hours + ':' + minutes + ':' + seconds, hour: Number(hours), minute: Number(minutes), second: Number(seconds) };
 
         },
 
