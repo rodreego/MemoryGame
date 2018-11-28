@@ -16,10 +16,72 @@ const memoryGame = {
         c2: null
     },
 
-    // Checar situação do jogo
-    check: function() {
+    // Contador de clicks
+    database: {
+        sameTime: 0,
+        time: 0,
+        score: 0
+    },
 
+    // Checar situação do jogo. Ela é ativada a cada final de jogada
+    // O valor done vai dizer se a jogada foi uma combinação perfeita ou não
+    check: function(done) {
 
+        // Aqui a gente vai obter o número de quantas cartas restam no jogo
+        var countCards = gens.body.find(".cardlist").children().length;
+
+        // Este é o marcador total de cliques
+        memoryGame.database.sameTime++;
+
+        // Este é o marcador de cliques até uma combinação perfeita de cartas ser atingida
+        if (done == true) {
+
+            // Vamos marcar os pontos antes de zerar o time
+            var pointsSend = 1;
+
+            var multipoint = 10 - memoryGame.database.time;
+
+            if (memoryGame.database.sameTime < Number(memoryGame.cards.length * 2)) {
+                multipoint = multipoint * 2;
+            }
+
+            if (multipoint > 0) {
+                pointsSend = pointsSend * multipoint;
+            }
+            delete multipoint;
+
+            memoryGame.database.score += pointsSend;
+
+            memoryGame.database.time = 0;
+            delete pointsSend;
+
+        } else {
+            memoryGame.database.time++;
+        }
+
+        // Todas as cartas sumiram? Vamos enviar para a janelinha da vitória! :D
+        if (countCards < 1) {
+
+            memoryGame.cards = [];
+
+            memoryGame.selected = {
+                c1: null,
+                c2: null
+            };
+
+            gens.pages("win", { time: memoryGame.database.sameTime, score: memoryGame.database.score });
+
+            memoryGame.database = {
+                sameTime: 0,
+                time: 0,
+                score: 0
+            };
+
+        } else {
+
+            console.log(memoryGame.database.time, memoryGame.database.sameTime, memoryGame.database.score);
+
+        }
 
     },
 
@@ -48,7 +110,7 @@ const memoryGame = {
                 memoryGame.selected.c2 = null;
 
                 // E depois checar se ainda a partida vai continuar ou terminar
-                memoryGame.check();
+                memoryGame.check(true);
 
             }
 
@@ -59,6 +121,9 @@ const memoryGame = {
                 if (memoryGame.selected.c2 != null) { memoryGame.selected.c2.css("background-image", ""); }
                 memoryGame.selected.c1 = null;
                 memoryGame.selected.c2 = null;
+
+                // E depois checar se ainda a partida vai continuar ou terminar
+                memoryGame.check();
 
             }
 
@@ -89,7 +154,12 @@ const memoryGame = {
             }
 
             if (memoryGame.selected.c1 == null) {
+
                 memoryGame.selected.c1 = $(this);
+
+                // E depois checar se ainda a partida vai continuar ou terminar
+                memoryGame.check();
+
             } else if (memoryGame.selected.c2 == null) {
 
                 memoryGame.selected.c2 = $(this);
@@ -107,6 +177,9 @@ const memoryGame = {
                 if (memoryGame.detector.timeout) {
                     clearTimeout(memoryGame.detector.timeout);
                     memoryGame.detector.action();
+                } else {
+                    // E depois checar se ainda a partida vai continuar ou terminar
+                    memoryGame.check();
                 }
 
             }
@@ -130,6 +203,9 @@ const memoryGame = {
                     memoryGame.selected.c2 = null;
                 }
 
+                // E depois checar se ainda a partida vai continuar ou terminar
+                memoryGame.check();
+
             }
 
         }
@@ -141,8 +217,19 @@ const memoryGame = {
 
         // Vamos converter o valor do input para número e em seguida usa-lo para formar a tabela de cartas do jogo
         data.cards = gens.getCards(Number(data.cards));
+
         memoryGame.cards = [];
-        console.log(data.cards);
+
+        memoryGame.selected = {
+            c1: null,
+            c2: null
+        };
+
+        memoryGame.database = {
+            sameTime: 0,
+            time: 0,
+            score: 0
+        };
 
         // Vamos começat a gerar as cartas aqui. Cada carta vai ter sua ID salva dentro de si em uma variavel chamada tinycard
         for (var i = 0; i < data.cards.length; i++) {
