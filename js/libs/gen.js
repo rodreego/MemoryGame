@@ -95,7 +95,7 @@ gens.preloadImages = function(array, callback) {
             }
         }
         img.onerror = function(err) {
-            console.error("ESTE ARQUIVO NÃO É UMA IMAGEM VÁLIDA: " + err.path[0].currentSrc, err);
+            console.error("ESTE ARQUIVO NÃO É UMA IMAGEM VÁLIDA: ", err.srcElement, err);
             var index = list.indexOf(this);
             if (index !== -1) {
                 // remove image from the array once it's loaded
