@@ -466,14 +466,20 @@ const memoryGame = {
 
         );
 
+        // Reajustar Tela
+        setTimeout(function() {
+            resizeWindow();
 
-        // Quando a página terminar de aparecer e aparecer, alguma coisinha pode acontecer aqui
-        gens.loading(false, function() {
 
-            // Ativar o relógio da partida
-            memoryGame.clock.enabled = true;
+            // Quando a página terminar de aparecer e aparecer, alguma coisinha pode acontecer aqui
+            gens.loading(false, function() {
 
-        });
+                // Ativar o relógio da partida
+                memoryGame.clock.enabled = true;
+
+            });
+
+        }, 200);
 
     }
 

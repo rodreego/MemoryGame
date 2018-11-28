@@ -185,3 +185,39 @@ $(document).ready(function() {
 
 
 });
+
+// Ajuste de Resize
+const resizeWindow = function() {
+    if (gens.page == "game") {
+
+        var fixCard = gens.body.find(".cardlist");
+
+        var itemsD = gens.body.find(".card").outerWidth(false);
+        var checkD = fixCard.outerWidth(true);
+        var itemsResult = itemsD;
+        var result = false;
+
+        do {
+            if (itemsResult > checkD) {
+                result = true;
+                itemsResult -= itemsD;
+                console.log(itemsResult, checkD);
+                itemsResult = Number(checkD - itemsResult) / 2;
+            } else {
+                itemsResult += itemsD;
+            }
+        } while (result != true)
+
+        if (checkD >= 1140) {
+            fixCard.css({ 'margin-left': itemsResult });
+        } else if (checkD <= 720) {
+            fixCard.css({ 'margin-left': itemsResult * 3 });
+        } else {
+            fixCard.css({ 'margin-left': Number(itemsResult * 2) - 10 });
+        }
+
+    }
+};
+
+$(window).resize(resizeWindow);
+resizeWindow();
