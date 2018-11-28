@@ -5,8 +5,11 @@ console.log(gens.cardTable([
 ]));
 
 
-// Quando a página terminar de carregar. O navegador vai começar a executar os scripts aqui.
-$(document).ready(function() {
+// Quando a página terminar de carregar. O aplicativo vai começar a executar os scripts aqui.
+const startApp = function() {
+
+    // gens.body representa de forma totalmente segura o valor $("#game") para ser manipulado pelo jQuery
+    gens.body.text("Joguinho");
 
     // Vamos usar o script que eu fiz para definir que agora podemos mostrar o conteúdo que está dentro da div #game
     // Deste jeito vamos ter uma transição mais elegante e natural para o jogo da página de loading para o game em si
@@ -16,4 +19,4 @@ $(document).ready(function() {
 
     });
 
-});
+};

@@ -54,3 +54,14 @@ gens.cardTable = function(cards) {
     return cards_selected;
 
 };
+
+// Esperar a página carregar completamente
+$(document).ready(function() {
+
+    // Game Body
+    gens.body = $("body > #game");
+
+    // Começar aplicativo do jogo
+    if (typeof startApp == "function") { startApp(); }
+
+});
