@@ -5,7 +5,6 @@ gens.game = {
 
 
 
-
     // Aqui eu estou armazenando o nome das cartas que vão ser usadas, neste caso eu coloquei o nome de todas ela de número para ficar mais simples de trabalhar
     // Se quiser adicionar mais, basta colocar aqui. Esta lista também vai definir sozinha o limite de cartas no jogo
     // Todos os arquivos vão abertos em jpg. Exemplo: O valor 1 vai carregar o arquivo 1.jpg
@@ -25,8 +24,8 @@ gens.game = {
 
 
 
-
-
+        // O sistema do jogo está dentro do arquivo game.js
+        game: memoryGame.app,
 
 
 
@@ -55,7 +54,7 @@ gens.game = {
                 $("<div>", { class: "menu container" }).append(
 
                     // Logo do Jogo
-                    $("<div>", { class: "logo" }),
+                    $("<div>", { class: "logo", title: "Logo" }),
 
                     // Painelzinho de Número de Cartas
                     $("<div>", { class: "cardnumber" }).append([
@@ -139,32 +138,7 @@ gens.game = {
 
             gens.loading(false);
 
-        },
-
-
-
-
-
-
-
-        // Abrir a página do jogo e começa-lo 
-        game: function(data) {
-
-            // O valor que estava dentro do input precisa ser convertido para número aqui, caso contrário, não vai funcionar
-            data.cards = Number(data.cards);
-
-            // Quando a página terminar de aparecer, a gente dar inicio a partida aqui
-            gens.loading(false, function() {
-
-                console.log(data.cards);
-                console.log(gens.getCards(data.cards));
-
-            });
-
-
-        },
-
-
+        }
 
 
 
