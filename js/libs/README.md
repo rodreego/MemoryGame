@@ -80,3 +80,17 @@ const startApp = function(){
 
 };
 ```
+
+### gens.pages(string, data)
+
+Coloque a id da página dentro do valor da string
+
+Caso você queira trazer algum dado junto com esta página, coloque tudo dentro do valor "data". Este valor poder qualquer coisa.
+
+```js
+gens.pages("mainMenu", ["Tiny Test"]);
+```
+
+### gens.page
+
+Este valor vai retornar a ID da página atual ativa no aplicativo

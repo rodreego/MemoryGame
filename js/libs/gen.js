@@ -19,9 +19,9 @@ gens.loading = function(isLoad, callback) {
     if (isLoad == false) {
         $("#loading").fadeOut(400);
         $("#game").fadeIn(400, callback);
-    } else {
-        $("#game").fadeIn(400, callback);
-        $("#loading").fadeOut(400);
+    } else if (isLoad == true) {
+        $("#game").fadeOut(400);
+        $("#loading").fadeIn(400, callback);
     }
 
 };
@@ -136,6 +136,21 @@ gens.loadImages = function(array, callback, noedit) {
 // Obter Cartas do jogo
 gens.getCards = function(number) {
     return gens.cardTable(gens.game.cards, number);
+};
+
+// Menu System
+gens.page = null;
+gens.pages = function(value, data) {
+
+    gens.body.empty();
+    gens.page = value;
+
+    if (typeof gens.game.pages[value] == "function") {
+        gens.game.pages[value](data);
+    } else {
+        console.error("ESTE VALOR NÃO É UM MENU REGISTRADO!");
+    }
+
 };
 
 // Esperar a página carregar completamente
