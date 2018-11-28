@@ -6,11 +6,14 @@
 // Lista de Pages do jogo dentro de suas IDs para serem executadas.
 gens.game.pages = {
 
-
-
     // O sistema do jogo está dentro do arquivo game.js
     game: memoryGame.app,
 
+    // Tabela de Pontuações
+    points: tinyPoints,
+
+    // Página de Créditos
+    credits: tinyCredits,
 
     // Menu Principal
     mainMenu: function() {
@@ -71,65 +74,7 @@ gens.game.pages = {
 
         gens.loading(false);
 
-    },
-
-
-
-
-    // Tabela de Pontuações
-    points: function() {
-
-        gens.loading(false);
-
-    },
-
-
-
-
-    // Página de Créditos
-    credits: function() {
-
-        gens.body.html(
-
-            // O Container dos créditos
-            $("<div>", { class: "credits container" }).append(
-                $("<h2>").text("Créditos do Trabalho"),
-                $("<table>", { class: "table table-bordered" }).append(
-
-                    // Topo da tabela
-                    $("<thead>").append(
-                        $("<tr>").append(
-                            $("<td>").text("Aluno(a)"),
-                            $("<td>").text("Função")
-                        )
-                    ),
-
-                    // Lista do Grupo. Programe aqui a sua participação :D
-                    $("<tbody>").append(
-
-                        // Yasmin
-                        $("<tr>").append(
-                            $("<td>").text("Yasmin Seidel"),
-                            $("<td>").text("Ajudou a transformar a ideia do trabalho em projeto e desenvolveu o sistema base")
-                        )
-
-                    )
-
-                ),
-                $("<button>", { class: "btn btn-primary btn-lg btn-block" }).text("Voltar").click(function() {
-                    gens.body.fadeOut(400, function() { gens.pages("mainMenu"); });
-                })
-            )
-
-        );
-
-        gens.loading(false);
-
     }
-
-
-
-
 
 };
 
