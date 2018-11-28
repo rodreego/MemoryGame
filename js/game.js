@@ -10,12 +10,37 @@ const memoryGame = {
     // Relógio do jogo
     clock: {
 
+        two_numbers: function(number) {
+
+            if (number <= 9) {
+                number = "0" + number;
+            }
+
+            return number;
+
+        },
+
+        // Transformar segundos em contador
+        get: function(s) {
+
+            var hour = memoryGame.clock.two_numbers(Math.round(s / 3600));
+            var minute = memoryGame.clock.two_numbers(Math.round((s % 3600) / 60));
+            var second = memoryGame.clock.two_numbers((s % 3600) % 60);
+
+            var format = hour + ":" + minute + ":" + second;
+
+            return { format: format, hour: Number(hour), minute: Number(minute), second: Number(second) };
+
+        },
+
         // Contador
         interval: function() {
             setInterval(function() {
                 if (memoryGame.clock.enabled == true) {
 
                     memoryGame.clock.count++;
+
+                    memoryGame.clock.get(memoryGame.clock.count);
 
                 }
             }, 1000);
@@ -100,7 +125,7 @@ const memoryGame = {
             };
 
             // Enviar dados para o sistema de vencedor
-            gens.pages("win", { clicks: memoryGame.database.sameClick, score: memoryGame.database.score, clock: memoryGame.clock.count });
+            gens.pages("win", { clicks: memoryGame.database.sameClick, score: memoryGame.database.score, clock: memoryGame.clock.get(memoryGame.clock.count) });
 
             // Terminar de limpar dados
             memoryGame.clock.count = 0;
@@ -117,7 +142,7 @@ const memoryGame = {
         // Continuar o jogo
         else {
 
-            console.log(memoryGame.database.click, memoryGame.database.sameClick, memoryGame.database.score, memoryGame.clock.count);
+            console.log(memoryGame.database.click, memoryGame.database.sameClick, memoryGame.database.score, memoryGame.clock.get(memoryGame.clock.count));
 
         }
 
