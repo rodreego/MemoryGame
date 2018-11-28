@@ -33,6 +33,7 @@ gens.game = {
         mainMenu: function() {
 
             // Configurador de Cartas para jogar. Este painel reconhece sozinho  quantas cartas estão instaladas no jogo
+            var totalCards = $("<span>").text(String(gens.game.cards.length * 2) + " Cartas no total");
             var Cardsmount = $("<input>", { type: "number", min: 1, max: gens.game.cards.length, class: "form-control" }).val(gens.game.cards.length).change(function() {
 
                 if (Number($(this).val()) > Number($(this).attr("max"))) {
@@ -44,6 +45,8 @@ gens.game = {
                     $(this).val($(this).attr("min"));
 
                 }
+
+                totalCards.text(String(Number($(this).val()) * 2) + " Cartas no total");
 
             });
 
@@ -59,7 +62,7 @@ gens.game = {
                     // Painelzinho de Número de Cartas
                     $("<div>", { class: "cardnumber" }).append([
                         $("<div>").text("Escolha uma quantidade de cartas"),
-                        Cardsmount
+                        totalCards, Cardsmount
                     ]),
 
                     // Butão de iniciar o jogo
