@@ -1,6 +1,7 @@
 const gens = {};
 
 // Este script vai clonar qualquer lista de objetos
+// https://stackoverflow.com/questions/10240110/how-do-you-cache-an-image-in-javascript
 gens.clone = function(obj) {
     if (null == obj || "object" != typeof obj) return obj;
     var copy = obj.constructor();
@@ -26,10 +27,26 @@ gens.loading = function(isLoad, callback) {
 };
 
 // Gerador de mesa de carts
-gens.cardTable = function(cards) {
+gens.cardTable = function(cards, number) {
+
+    // Criando sisteminha de limite de cartas
+    if (typeof number == "number") {
+
+        var countcards = number;
+        if (countcards < 1) { countcards = 1; } else if (countcards > cards.length) { countcards = cards.length; }
+
+        var tinyCards = [];
+        for (var i = 0; i < countcards; i++) {
+            tinyCards.push(cards[i]);
+        }
+
+        cards = tinyCards;
+        delete tinyCards;
+
+    }
 
     // Vamos inserir a array de imagens dentro do "cards" que vai ser inserido e depois clonado aqui dentro.
-    var cardslist = [cards, gens.clone(cards)];
+    var cardslist = [gens.clone(cards), gens.clone(cards)];
 
     // Os dados processados vão ser todos inseridos aqui dentro
     var cards_selected = [];
@@ -50,9 +67,51 @@ gens.cardTable = function(cards) {
         // O loop vai continuar até todos os valores serem sorteados, assim finalizando a criação da nova array com os dados que vão ser usados dentro do jogo
     } while (cardslist[0].length != 0);
 
+    delete randomnumber1;
+    delete randomnumber2;
+    delete cardslist;
+
     // Agora vamos finalmente retornar o valor da nossa tabela de cartas gerada para ser usada dentro do do jogo
     return cards_selected;
 
+};
+
+// Aqui a gente vai fazer load de cache de imagens
+// https://stackoverflow.com/questions/10240110/how-do-you-cache-an-image-in-javascript
+gens.preloadImages = function(array, callback) {
+    if (!gens.preloadImages.list) {
+        gens.preloadImages.list = [];
+    }
+    var list = gens.preloadImages.list;
+    for (var i = 0; i < array.length; i++) {
+        var img = new Image();
+        img.onload = function() {
+            var index = list.indexOf(this);
+            if (index !== -1) {
+                // remove image from the array once it's loaded
+                // for memory consumption reasons
+                list.splice(index, 1);
+                if ((list.length < 1) && (typeof callback == 'function')) { callback(); }
+            }
+        }
+        img.onerror = function(err) {
+            console.error("ESTE ARQUIVO NÃO É UMA IMAGEM VÁLIDA: " + err.path[0].currentSrc, err);
+            var index = list.indexOf(this);
+            if (index !== -1) {
+                // remove image from the array once it's loaded
+                // for memory consumption reasons
+                list.splice(index, 1);
+                if ((list.length < 1) && (typeof callback == 'function')) { callback(); }
+            }
+        }
+        list.push(img);
+        img.src = array[i];
+    }
+}
+
+// Obter Cartas do jogo
+gens.getCards = function(number) {
+    return gens.cardTable(gens.game.cards, number);
 };
 
 // Esperar a página carregar completamente
@@ -61,7 +120,20 @@ $(document).ready(function() {
     // Game Body
     gens.body = $("body > #game");
 
+    var imgloading = [];
+
+    for (var i = 0; i < gens.game.cards.length; i++) {
+        imgloading.push("./cards/" + String(gens.game.cards[i]) + ".jpeg");
+    }
+
+    for (var i = 0; i < gens.game.imgs.length; i++) {
+        imgloading.push("./img/" + String(gens.game.imgs[i]));
+    }
+
     // Começar aplicativo do jogo
-    if (typeof startApp == "function") { startApp(); }
+    gens.preloadImages(imgloading, function() {
+        delete imgloading;
+        if (typeof startApp == "function") { startApp(); }
+    });
 
 });
